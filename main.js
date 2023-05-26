@@ -111,13 +111,15 @@ function handleAnswer() {
     selectedOption
   );
 
+  this.classList.add("selected");
   if (question.answer === selectedOptionIndex) score += 10;
 
   question.selectedOption = selectedOptionIndex;
   currentQuestion++;
-
-  if (currentQuestion < quizData.length) displayQuestion();
-  else endQuiz();
+  setTimeout(() => {
+    if (currentQuestion < quizData.length) displayQuestion();
+    else endQuiz();
+  }, 200);
 }
 
 const prevQuestion = () => {
