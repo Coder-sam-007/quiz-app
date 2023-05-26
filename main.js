@@ -59,6 +59,7 @@ const resultElement = document.getElementById("result");
 const scoreElement = document.getElementById("score");
 const quizContainer = document.querySelector(".quiz-container");
 const timerElement = document.getElementById("timer");
+const quizReviewElement = document.getElementById("quiz-review");
 
 let timeLeft = 20;
 
@@ -69,6 +70,7 @@ const updateTimer = () => {
     .toString()
     .padStart(2, "0")}`;
 };
+
 const decrementTimer = () => {
   timeLeft--;
   updateTimer();
@@ -78,6 +80,7 @@ const decrementTimer = () => {
     endQuiz();
   }
 };
+
 let timerInterval = setInterval(decrementTimer, 1000);
 
 const displayQuestion = () => {
@@ -141,7 +144,27 @@ const endQuiz = () => {
   playAgainBtn.style.display = "block";
   quizContainer.style.display = "none";
 
-  quizData.forEach((question) => {
+  quizReviewElement.innerHTML = "";
+  quizReviewElement.style.display = "block";
+
+  quizData.forEach((question, index) => {
+    const questionElement = document.createElement("div");
+    questionElement.classList.add("question-review");
+
+    const questionText = document.createElement("p");
+    questionText.textContent = `Q${index + 1}: ${question.question}`;
+
+    const answerText = document.createElement("p");
+    answerText.textContent = `Answer: ${question.options[question.answer]}`;
+
+    const explanationText = document.createElement("p");
+    explanationText.textContent = `Explanation: ${question.explanation}`;
+
+    questionElement.appendChild(questionText);
+    questionElement.appendChild(answerText);
+    questionElement.appendChild(explanationText);
+    quizReviewElement.appendChild(questionElement);
+
     question.selectedOption = null;
   });
 };
@@ -158,6 +181,7 @@ const startQuiz = () => {
   quizContainer.style.display = "block";
   resultElement.style.display = "none";
   scoreElement.style.display = "none";
+  quizReviewElement.style.display = "none";
 
   timeLeft = 20;
   updateTimer();
